@@ -46,8 +46,10 @@ on init
     copy /system/etc/prop.default /dev/urandom
     copy /default.prop /dev/urandom
 
-    symlink /system/bin /bin
-    symlink /system/etc /etc
+#    symlink /system/bin /bin
+#    symlink /system/etc /etc
+
+    loglevel 64
 
     # Backward compatibility.
     symlink /sys/kernel/debug /d
@@ -326,12 +328,12 @@ on post-fs
 
     # Once everything is setup, no need to modify /.
     # The bind+ro combination avoids modifying any other mount flags.
-    mount rootfs rootfs / remount bind ro
+    # mount rootfs rootfs / remount bind ro
     # Mount shared so changes propagate into child namespaces
-    mount rootfs rootfs / shared rec
+    # mount rootfs rootfs / shared rec
     # Mount default storage into root namespace
-    mount none /mnt/runtime/default /storage bind rec
-    mount none none /storage slave rec
+    # mount none /mnt/runtime/default /storage bind rec
+    # mount none none /storage slave rec
 
     # Make sure /sys/kernel/debug (if present) is labeled properly
     # Note that tracefs may be mounted under debug, so we need to cross filesystems
