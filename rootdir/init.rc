@@ -391,7 +391,9 @@ on post-fs-data
     restorecon /data
 
     # Make sure we have the device encryption key.
-    start vold
+    #start vold
+    # hybris continue bootup properly
+    setprop vold.decrypt trigger_restart_min_framework
     installkey /data
 
     # Start bootcharting as soon as possible after the data partition is
