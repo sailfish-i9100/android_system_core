@@ -579,8 +579,9 @@ on zygote-start && property:ro.crypto.state=encrypted && property:ro.crypto.type
 on boot
     # basic network init
     ifup lo
-    hostname localhost
-    domainname localdomain
+# Conflicts with Mer
+    #hostname localhost
+    #domainname localdomain
 
     # IPsec SA default expiration length
     write /proc/sys/net/core/xfrm_acq_expires 3600
