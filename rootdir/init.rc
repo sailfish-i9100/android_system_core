@@ -749,6 +749,8 @@ service ueventd /sbin/ueventd
     critical
     seclabel u:r:ueventd:s0
     shutdown critical
+#Not used by Mer
+    disabled
 
 service console /system/bin/sh
     class core
