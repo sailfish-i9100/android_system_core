@@ -114,8 +114,8 @@ static void LoadBootScripts(ActionManager& action_manager, ServiceList& service_
     std::string bootscript = GetProperty("ro.boot.init_rc", "");
     if (bootscript.empty()) {
         parser.ParseConfig("/init.rc");
-        if (!parser.ParseConfig("/system/etc/init")) {
-            late_import_paths.emplace_back("/system/etc/init");
+        if (!parser.ParseConfig("/usr/libexec/droid-hybris/system/etc/init")) {
+            late_import_paths.emplace_back("/usr/libexec/droid-hybris/system/etc/init");
         }
         if (!parser.ParseConfig("/product/etc/init")) {
             late_import_paths.emplace_back("/product/etc/init");

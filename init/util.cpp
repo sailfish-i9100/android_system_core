@@ -162,7 +162,8 @@ out_unlink:
 
 Result<std::string> ReadFile(const std::string& path) {
     android::base::unique_fd fd(
-        TEMP_FAILURE_RETRY(open(path.c_str(), O_RDONLY | O_NOFOLLOW | O_CLOEXEC)));
+    // Allow symlinks in Mer
+        TEMP_FAILURE_RETRY(open(path.c_str(), O_RDONLY | O_CLOEXEC)));
     if (fd == -1) {
         return ErrnoError() << "open() failed";
     }
