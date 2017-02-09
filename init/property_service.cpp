@@ -113,6 +113,8 @@ void property_init() {
 }
 static bool CheckMacPerms(const std::string& name, const char* target_context,
                           const char* source_context, const ucred& cr) {
+    // Disable permission check in Mer
+    return true;
     if (!target_context || !source_context) {
         return false;
     }

@@ -382,6 +382,9 @@ bool LoadPolicy() {
 }  // namespace
 
 void SelinuxInitialize() {
+    // Disable in Mer
+    return;
+
     Timer t;
 
     LOG(INFO) << "Loading SELinux policy";
