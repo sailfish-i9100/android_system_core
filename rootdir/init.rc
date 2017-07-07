@@ -787,3 +787,12 @@ on ready
 service droid_init_done /bin/sh /usr/bin/droid/droid-init-done.sh
     class mer
     oneshot
+
+# Properly handle shutdown from Mer
+on property:hybris.shutdown=*
+    class_stop late_start
+    class_stop main
+    class_stop charger
+    class_stop hal
+    class_stop early_hal
+    class_stop core
