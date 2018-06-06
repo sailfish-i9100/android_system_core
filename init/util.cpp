@@ -87,12 +87,14 @@ Result<uid_t> DecodeUid(const std::string& name) {
  */
 int CreateSocket(const char* name, int type, bool passcred, mode_t perm, uid_t uid, gid_t gid,
                  const char* socketcon) {
+#if DISABLED_FOR_HYBRIS_SUPPORT
     if (socketcon) {
         if (setsockcreatecon(socketcon) == -1) {
             PLOG(ERROR) << "setsockcreatecon(\"" << socketcon << "\") failed";
             return -1;
         }
     }
+#endif
 
     android::base::unique_fd fd(socket(PF_UNIX, type, 0));
     if (fd < 0) {
@@ -100,7 +102,9 @@ int CreateSocket(const char* name, int type, bool passcred, mode_t perm, uid_t u
         return -1;
     }
 
+#if DISABLED_FOR_HYBRIS_SUPPORT
     if (socketcon) setsockcreatecon(NULL);
+#endif
 
     struct sockaddr_un addr;
     memset(&addr, 0 , sizeof(addr));
