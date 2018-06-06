@@ -79,7 +79,6 @@ cc_defaults {
         "libdl",
         "libsparse",
         "libz",
-        "libprocessgroup",
         "libavb",
         "libkeyutils",
         "libprotobuf-cpp-lite",
@@ -222,7 +221,6 @@ cc_binary {
     shared_libs: [
         "libprotobuf-cpp-lite",
         "libhidl-gen-utils",
-        "libprocessgroup",
         "liblog",
         "libcutils",
     ],

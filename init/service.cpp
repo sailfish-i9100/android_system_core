@@ -36,7 +36,6 @@
 #include <android-base/strings.h>
 #include <android-base/unique_fd.h>
 #include <hidl-util/FQName.h>
-#include <processgroup/processgroup.h>
 #include <selinux/selinux.h>
 #include <system/thread_defs.h>
 
@@ -268,15 +267,21 @@ void Service::KillProcessGroup(int signal) {
     // These functions handle their own logging, so no additional logging is needed.
     if (!process_cgroup_empty_) {
         LOG(INFO) << "Sending signal " << signal << " to service '" << name_ << "' (pid " << pid_
-                  << ") process group...";
+                  << ") process group... HYBRIS: killing PID instead of process group.";
+
+        kill(pid_, signal);
+
+        // hybris: TODO?
+#if DISABLED_FOR_HYBRIS_SUPPORT
         int r;
         if (signal == SIGTERM) {
             r = killProcessGroupOnce(uid_, pid_, signal);
         } else {
             r = killProcessGroup(uid_, pid_, signal);
         }
-
-        if (r == 0) process_cgroup_empty_ = true;
+        if (r == 0)
+#endif
+        process_cgroup_empty_ = true;
     }
 }
 
@@ -959,6 +964,7 @@ Result<Success> Service::Start() {
     start_order_ = next_start_order_++;
     process_cgroup_empty_ = false;
 
+#if DISABLED_FOR_HYBRIS_SUPPORT
     errno = -createProcessGroup(uid_, pid_);
     if (errno != 0) {
         PLOG(ERROR) << "createProcessGroup(" << uid_ << ", " << pid_ << ") failed for service '"
@@ -982,6 +988,7 @@ Result<Success> Service::Start() {
             }
         }
     }
+#endif
 
     NotifyStateChange("running");
     return Success();
