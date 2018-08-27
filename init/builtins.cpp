@@ -243,6 +243,13 @@ static Result<Success> do_insmod(const BuiltinArguments& args) {
 // mkdir <path> [mode] [owner] [group]
 static Result<Success> do_mkdir(const BuiltinArguments& args) {
     mode_t mode = 0755;
+
+    if (args[1] == "/tmp") {
+        // hybris, do not recreate or change permissions on tmp (consider
+        // this for other systemd owned directories as well?)
+        return Success();
+    }
+
     if (args.size() >= 3) {
         mode = std::strtoul(args[2].c_str(), 0, 8);
     }
@@ -295,10 +302,13 @@ static Result<Success> do_mkdir(const BuiltinArguments& args) {
 
 /* umount <path> */
 static Result<Success> do_umount(const BuiltinArguments& args) {
+    return Success();
+#if DISABLED_FOR_HYBRIS_SUPPORT
     if (umount(args[1].c_str()) < 0) {
         return ErrnoError() << "umount() failed";
     }
     return Success();
+#endif
 }
 
 static struct {
@@ -327,6 +337,11 @@ static struct {
 
 /* mount <type> <device> <path> <flags ...> <options> */
 static Result<Success> do_mount(const BuiltinArguments& args) {
+    (void)args;
+    (void)mount_flags;
+
+    return Success();
+#if DISABLED_FOR_HYBRIS_SUPPORT
     const char* options = nullptr;
     unsigned flags = 0;
     bool wait = false;
@@ -389,6 +404,7 @@ static Result<Success> do_mount(const BuiltinArguments& args) {
     }
 
     return Success();
+#endif
 }
 
 /* Imports .rc files from the specified paths. Default ones are applied if none is given.
