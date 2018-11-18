@@ -589,7 +589,7 @@ static Result<Success> do_mount_all(const BuiltinArguments& args) {
         return Error() << "mount_fstab() failed " << mount_fstab_return_code.error();
     }
 */
-    auto mount_fstab_return_code = WEXITSTATUS(0);
+    Result<int> mount_fstab_return_code = WEXITSTATUS(0);
     property_set(prop_name, std::to_string(t.duration().count()));
 
     if (import_rc) {
