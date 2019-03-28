@@ -243,11 +243,11 @@ void Subcontext::Fork() {
         if (child_fd < 0) {
             PLOG(FATAL) << "Could not dup child_fd";
         }
-
+#if 0
         if (setexeccon(context_.c_str()) < 0) {
             PLOG(FATAL) << "Could not set execcon for '" << context_ << "'";
         }
-
+#endif
         auto init_path = GetExecutablePath();
         auto child_fd_string = std::to_string(child_fd);
         const char* args[] = {init_path.c_str(), "subcontext", context_.c_str(),

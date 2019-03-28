@@ -339,11 +339,14 @@ class SocketConnection {
     const ucred& cred() { return cred_; }
 
     std::string source_context() const {
+#if 0
         char* source_context = nullptr;
         getpeercon(socket_, &source_context);
         std::string result = source_context;
         freecon(source_context);
         return result;
+#endif
+        return "";
     }
 
   private:

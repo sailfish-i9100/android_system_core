@@ -117,10 +117,12 @@ int CreateSocket(const char* name, int type, bool passcred, mode_t perm, uid_t u
         return -1;
     }
 
+#if 0
     std::string secontext;
     if (SelabelLookupFileContext(addr.sun_path, S_IFSOCK, &secontext) && !secontext.empty()) {
         setfscreatecon(secontext.c_str());
     }
+#endif
 
     if (passcred) {
         int on = 1;
@@ -133,9 +135,11 @@ int CreateSocket(const char* name, int type, bool passcred, mode_t perm, uid_t u
     int ret = bind(fd, (struct sockaddr *) &addr, sizeof (addr));
     int savederrno = errno;
 
+#if 0
     if (!secontext.empty()) {
         setfscreatecon(nullptr);
     }
+#endif
 
     if (ret) {
         errno = savederrno;
