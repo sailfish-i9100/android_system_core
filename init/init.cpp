@@ -601,8 +601,8 @@ int main(int argc, char** argv) {
 
         // Mount staging areas for devices managed by vold
         // See storage config details at http://source.android.com/devices/storage/
-        mount("tmpfs", "/mnt", "tmpfs", MS_NOEXEC | MS_NOSUID | MS_NODEV,
-              "mode=0755,uid=0,gid=1000");
+        //mount("tmpfs", "/mnt", "tmpfs", MS_NOEXEC | MS_NOSUID | MS_NODEV,
+        //      "mode=0755,uid=0,gid=1000");
         // /mnt/vendor is used to mount vendor-specific partitions that can not be
         // part of the vendor partition, e.g. because they are mounted read-write.
         mkdir("/mnt/vendor", 0755);
